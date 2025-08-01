@@ -1,0 +1,42 @@
+{
+    "1":{
+        "Difficulty" : "10-12",
+        "Major Threshold": "5-10",
+        "Severe Threshold" : "8-12",
+        "HP" : "5-6",
+        "Stress" : "2-3",
+        "ATK" : "-2-0",
+        "Damage Average": "5-8",
+        "Potential Dice Pools" : ["1d8+3",  "1d10+2", "1d12+1"]
+    },
+    "2":{
+        "Difficulty" : "12-14",
+        "Major Threshold": "10-15",
+        "Severe Threshold" : "16-20",
+        "HP" : "5-6",
+        "Stress" : "2-3",
+        "ATK" : "-1-1",
+        "Damage Average": "9-13",
+        "Potential Dice Pools" : ["2d8+6",  "2d10+2", "2d12+3"]
+    },
+    "3":{
+        "Difficulty" : "14-16",
+        "Major Threshold": "15-25",
+        "Severe Threshold" : "27-32",
+        "HP" : "6-7",
+        "Stress" : "3-4",
+        "ATK" : "0-2",
+        "Damage Average": "14-18",
+        "Potential Dice Pools" : ["3d8+4",  "3d10+2", "3d12"]
+    },
+    "4":{
+        "Difficulty" : "16-18",
+        "Major Threshold": "20-30",
+        "Severe Threshold" : "35-45",
+        "HP" : "7-8",
+        "Stress" : "4-5",
+        "ATK" : "1-3",
+        "Damage Average": "20-35",
+        "Potential Dice Pools" : ["4d8+10",  "4d10+4", "4d12+10"]
+    }
+}

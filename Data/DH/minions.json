@@ -1,0 +1,42 @@
+{
+    "1":{
+        "Difficulty" : "10-12",
+        "Major Threshold": "-",
+        "Severe Threshold" : "-",
+        "HP" : "1",
+        "Stress" : "1",
+        "ATK" : "-2-0",
+        "Minion Passive": "3-5",
+        "Potential Dice Pools" : "1-3"
+    },
+    "2":{
+        "Difficulty" : "12-14",
+        "Major Threshold": "-",
+        "Severe Threshold" : "-",
+        "HP" : "1",
+        "Stress" : "1",
+        "ATK" : "-1-1",
+        "Minion Passive": "5-7",
+        "Potential Dice Pools" : "2-4"
+    },
+    "3":{
+        "Difficulty" : "14-16",
+        "Major Threshold": "-",
+        "Severe Threshold" : "-",
+        "HP" : "1",
+        "Stress" : "1",
+        "ATK" : "0-2",
+        "Minion Passive": "7-9",
+        "Potential Dice Pools" : "5-8"
+    },
+    "4":{
+        "Difficulty" : "16-18",
+        "Major Threshold": "-",
+        "Severe Threshold" : "-",
+        "HP" : "1",
+        "Stress" : "1",
+        "ATK" : "1-3",
+        "Minion Passive": "9-12",
+        "Potential Dice Pools" : "10-12"
+    }
+}
