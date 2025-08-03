@@ -1,6 +1,4 @@
-"""
-main.py - Entry point for the PyQt desktop application.
-"""
+from Stats.statConverter import convertAcToRange
 
 
 def main():
