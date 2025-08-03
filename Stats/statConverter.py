@@ -3,6 +3,7 @@ import json
 
 TIER_RANGES = [1,2,5,8]
 
+
 def convertLevelToTier(level):
     level *= 0.5
     if level >= TIER_RANGES[3]:
@@ -18,18 +19,42 @@ def convertLevelToTier(level):
 def convertAcToRange(level, ac):
     armor_class_data = load_json_data("Data/PF/armor_class.json")
     ranges_for_level = armor_class_data[str(level)]
-    tier = convertLevelToTier(level)
-    if ac >= int(ranges_for_level["extreme"]):
-        return "extreme"
-    elif ac >= int(ranges_for_level["high"]):
-        return "high"
-    elif ac >= int(ranges_for_level["moderate"]):
-        return "moderate"
-    else:
-        return "low"
+    range_keys = list(reversed(ranges_for_level.keys()))
+    for i in range(len(range_keys)-1, 1, -1):
+        if ac >= int(ranges_for_level[range_keys[i]]):
+            return range_keys[i]
+    return range_keys[0]
     
 
+def ConvertStatToRange(level, stat, json_name):
+    hit_points_data = load_json_data(f"Data/PF/{json_name}.json")
+    if(not hit_points_data):
+        raise Exception(f"Json {json_name} not found") 
+    ranges_for_level = hit_points_data[str(level)]
+    range_keys = list(reversed(ranges_for_level.keys()))
+    for i in range(len(ranges_for_level)):
+        cur_min, cur_max = parseRange(ranges_for_level[range_keys[i]])
+        #print(f"range for level: {level} is {cur_min},{cur_max}, stat - {stat}")
+        if stat < cur_min:
+            if i == 0:
+                return f"below {range_keys[0]}"
+            else:
+                return f"{range_keys[i-1]} to {range_keys[i]}"
+        elif stat >= cur_min and stat <= cur_max:
+            return range_keys[i]
+        elif stat > cur_max:
+            if i == len(range_keys)-1:
+                return f"above {range_keys[-1]}"
 
+
+    
+    
+
+    
+
+def parseRange(range):
+    nums = range.split("-")
+    return int(nums[1]), int(nums[0])
 
 def load_json_data(filepath):
     with open(filepath, 'r') as f:
