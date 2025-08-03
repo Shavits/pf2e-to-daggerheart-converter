@@ -16,15 +16,6 @@ def convertLevelToTier(level):
         return 1
     
 
-def convertAcToRange(level, ac):
-    armor_class_data = load_json_data("Data/PF/armor_class.json")
-    ranges_for_level = armor_class_data[str(level)]
-    range_keys = list(reversed(ranges_for_level.keys()))
-    for i in range(len(range_keys)-1, 1, -1):
-        if ac >= int(ranges_for_level[range_keys[i]]):
-            return range_keys[i]
-    return range_keys[0]
-    
 
 def ConvertStatToRange(level, stat, json_name):
     hit_points_data = load_json_data(f"Data/PF/{json_name}.json")
@@ -53,6 +44,8 @@ def ConvertStatToRange(level, stat, json_name):
     
 
 def parseRange(range):
+    if "-" not in range:
+        return int(range), int(range)
     nums = range.split("-")
     return int(nums[1]), int(nums[0])
 
