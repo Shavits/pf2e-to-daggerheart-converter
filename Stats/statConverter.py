@@ -18,10 +18,10 @@ def convertLevelToTier(level):
 
 
 def ConvertStatToRange(level, stat, json_name):
-    hit_points_data = load_json_data(f"Data/PF/{json_name}.json")
-    if(not hit_points_data):
+    stat_data = load_json_data(f"Data/PF/{json_name}.json")
+    if(not stat_data):
         raise Exception(f"Json {json_name} not found") 
-    ranges_for_level = hit_points_data[str(level)]
+    ranges_for_level = stat_data[str(level)]
     range_keys = list(reversed(ranges_for_level.keys()))
     for i in range(len(ranges_for_level)):
         cur_min, cur_max = parseRange(ranges_for_level[range_keys[i]])
