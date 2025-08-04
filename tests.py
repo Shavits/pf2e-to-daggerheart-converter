@@ -1,4 +1,5 @@
-from Stats.statConverter import convertAcToRange, convertLevelToTier, ConvertStatToRange
+from Stats.statConverter import convertLevelToTier, ConvertStatToRange, GetAdversaryRanges
+from Stats.dhStat import Adversary_Type
 import unittest
 
 class TestStatConverter(unittest.TestCase):
@@ -33,6 +34,49 @@ class TestStatConverter(unittest.TestCase):
         self.assertEqual(ConvertStatToRange(12, 240, "hit_points"), "moderate to high")
         self.assertEqual(ConvertStatToRange(16, 370, "hit_points"), "high")
         self.assertEqual(ConvertStatToRange(17, 400, "hit_points"), "above high")
+
+    def test_GetAdversaryRanges(self):
+        # Assuming the adversary data is set up correctly
+        self.assertEqual(GetAdversaryRanges(1, Adversary_Type.Bruiser), {
+        "Difficulty" : "12-14",
+        "Major Threshold": "7-9",
+        "Severe Threshold" : "14-18",
+        "HP" : "6-7",
+        "Stress" : "3-4",
+        "ATK" : "0-2",
+        "Damage Average": "8-11",
+        "Potential Dice Pools" : ["1d8+6",  "1d10+4", "1d12+2"]
+    })
+        self.assertEqual(GetAdversaryRanges(2, Adversary_Type.Horde), {
+        "Difficulty" : "12-14",
+        "Major Threshold": "10-15",
+        "Severe Threshold" : "16-20",
+        "HP" : "5-6",
+        "Stress" : "2-3",
+        "ATK" : "-1-1",
+        "Damage Average": "9-13",
+        "Potential Dice Pools" : ["2d8+6",  "2d10+2", "2d12+3"]
+    })
+        self.assertEqual(GetAdversaryRanges(3, Adversary_Type.Leader), {
+        "Difficulty" : "17-19",
+        "Major Threshold": "18-25",
+        "Severe Threshold" : "36-42",
+        "HP" : "8-10",
+        "Stress" : "5-6",
+        "ATK" : "5-7",
+        "Damage Average": "15-18",
+        "Potential Dice Pools" : ["3d8+8",  "3d10+1"]
+    })
+        self.assertEqual(GetAdversaryRanges(4, Adversary_Type.Minion), {
+        "Difficulty" : "16-18",
+        "Major Threshold": "-",
+        "Severe Threshold" : "-",
+        "HP" : "1",
+        "Stress" : "1",
+        "ATK" : "1-3",
+        "Minion Passive": "9-12",
+        "Potential Dice Pools" : "10-12"
+    })
         
 if __name__ == "__main__":
     unittest.main()

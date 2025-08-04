@@ -1,4 +1,4 @@
-from .dhStat import Adversary_Type
+from .dhStat import adversaryTypeToJsonPath 
 import json
 
 TIER_RANGES = [1,2,5,8]
@@ -39,7 +39,9 @@ def ConvertStatToRange(level, stat, json_name):
 
 
     
-    
+def GetAdversaryRanges(tier, type):
+    adversary_data = load_json_data(adversaryTypeToJsonPath(type))
+    return adversary_data[str(tier)]
 
     
 
