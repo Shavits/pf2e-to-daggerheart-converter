@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QPushButton
-from Stats.statConverter import ConvertStatToRange
+from PyQt5.QtWidgets import QApplication, QWidget, QHBoxLayout, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox
+from Stats.statConverter import ConvertStatToRange, GetAdversaryRanges, convertLevelToTier
+from Stats.dhStat import Adversary_Type
 
 class MainWindow(QWidget):
     def __init__(self):
@@ -54,10 +55,10 @@ class MainWindow(QWidget):
 
         self.layout.addLayout(att_bon_layout)
 
-
-        self.recommend_button = QPushButton("Generate Recommendation")
-        self.recommend_button.clicked.connect(self.get_recommendations)
-        self.layout.addWidget(self.recommend_button)
+        #Estimation
+        self.estimation_button = QPushButton("Generate Estimation")
+        self.estimation_button.clicked.connect(self.get_estimation)
+        self.layout.addWidget(self.estimation_button)
 
         self.output_label = QLabel("PF2E estimations")
         self.layout.addWidget(self.output_label)
@@ -65,9 +66,33 @@ class MainWindow(QWidget):
         self.estimationsLayout = QVBoxLayout()
         self.layout.addLayout(self.estimationsLayout)
 
+
+        #Daggerheart Recommendation
+        self.adversary_type = QComboBox()
+        self.adversary_type.addItem("Bruiser")
+        self.adversary_type.addItem("Horde")
+        self.adversary_type.addItem("Leader")
+        #self.adversary_type.addItem("Minion")
+        self.adversary_type.addItem("Ranged")
+        self.adversary_type.addItem("Skulk")
+        self.adversary_type.addItem("Solo")
+        self.adversary_type.addItem("Standard")
+        self.adversary_type.addItem("Support")
+        self.adversary_type.currentTextChanged.connect(self.on_dropdown_change)
+        self.layout.addWidget(self.adversary_type)
+
+        self.reccomendations_layout = QVBoxLayout()
+        self.layout.addLayout(self.reccomendations_layout)
+
+
+
+
+
+
+
         self.setLayout(self.layout)
 
-    def get_recommendations(self):
+    def get_estimation(self):
         level = self.level_input.text()
         print(f"recommending for level - {level}")
         #AC
@@ -82,6 +107,38 @@ class MainWindow(QWidget):
         att_bon_estimated_value = ConvertStatToRange(level, int(self.att_bon_input.text()), "strike_attack_bonus")
         att_bon_estimation = QLabel(f"Strike Bonus: {att_bon_estimated_value}")
         self.estimationsLayout.addWidget(att_bon_estimation)
+
+    def on_dropdown_change(self, value):
+        self.clear_layout(self.reccomendations_layout)
+        adversary_type = Adversary_Type(value)
+        tier = convertLevelToTier(int(self.level_input.text()))
+        ranges = GetAdversaryRanges(tier, adversary_type)
+        #print(ranges)
+        difficulity = QLabel(f"Difficulty: {ranges["Difficulty"]}")
+        m_thresh = QLabel(f"Major Threshold: {ranges["Major Threshold"]}")
+        s_thresh = QLabel(f"Severe Threshold: {ranges["Severe Threshold"]}")
+        hp = QLabel(f"HP: {ranges["HP"]}")
+        strs = QLabel(f"Stress: {ranges["Stress"]}")
+        att_bon = QLabel(f"ATK: {ranges["ATK"]}")
+        dmg_avg = QLabel(f"Damage Average: {ranges["Damage Average"]}")
+        self.reccomendations_layout.addWidget(difficulity)
+        self.reccomendations_layout.addWidget(m_thresh)
+        self.reccomendations_layout.addWidget(s_thresh)
+        self.reccomendations_layout.addWidget(hp)
+        self.reccomendations_layout.addWidget(strs)
+        self.reccomendations_layout.addWidget(att_bon)
+        self.reccomendations_layout.addWidget(dmg_avg)
+
+    def clear_layout(self, layout):
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget is not None:
+                widget.deleteLater()
+        
+        
+        
+
 
 
 if __name__ == "__main__":
